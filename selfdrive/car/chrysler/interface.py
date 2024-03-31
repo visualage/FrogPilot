@@ -78,7 +78,10 @@ class CarInterface(CarInterfaceBase):
     else:
       raise ValueError(f"Unsupported car: {candidate}")
 
-    if ret.flags & ChryslerFlags.HIGHER_MIN_STEERING_SPEED:
+    if 0x4FF in fingerprint[0]:
+      # White Panda mod available, no minimum steering speed
+      ret.minSteerSpeed = 0
+    elif ret.flags & ChryslerFlags.HIGHER_MIN_STEERING_SPEED:
       # TODO: allow these cars to steer down to 13 m/s if already engaged.
       # TODO: Durango 2020 may be able to steer to zero once above 38 kph
       ret.minSteerSpeed = 17.5  # m/s 17 on the way up, 13 on the way down once engaged.
